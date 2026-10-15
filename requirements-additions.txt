@@ -1,0 +1,4 @@
+# Install alongside the repository's existing requirements.txt
+psycopg[binary]>=3.2,<4.0
+PyMySQL>=1.1,<2.0
+scikit-learn>=1.5,<2.0
