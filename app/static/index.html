@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Autonomous DB Monitoring & Optimization Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-shell">
+<header class="topbar">
+  <div class="brand"><div class="brand-icon">DB</div><div><h1>Autonomous DB Monitoring &amp;<br>Optimization Platform</h1><p>Closed-Loop AI/ML Anomaly Detection &amp; Self-Healing Engine</p></div></div>
+  <div class="target-select"><select id="targetSelect" aria-label="Select database target"></select></div>
+  <div id="globalStatus" class="pill warning"><i></i> WARNING</div>
+  <div class="role">DBA ·<br>Database Administrator</div>
+  <button class="button outline" id="connectOpen">＋ Connect<br>Database</button>
+  <button class="button outline" id="signOut">Sign<br>out</button>
+</header>
+<main>
+<section class="feedback panel">
+  <div class="eyebrow">AUTONOMOUS FEEDBACK LOOP: DETECT → DIAGNOSE → RECOMMEND → ACT → VERIFY</div>
+  <div class="pipeline">
+    <div class="stage"><span>1</span><b>Telemetry Ingestion</b></div><em>➜</em><div class="stage"><span>2</span><b>Isolation Forest ML</b></div><em>➜</em><div class="stage"><span>3</span><b>Diagnosis &amp; Index Rec.</b></div><em>➜</em><div class="stage"><span>4</span><b>Autonomous Action</b></div><em>➜</em><div class="stage"><span>5</span><b>Verification / Rollback</b></div>
+  </div>
+</section>
+<section class="panel fleet-panel">
+  <div class="section-head"><div><h2>▦ Monitored Database Fleet</h2><p>Database targets and health-state overview. Demo records are illustrative.</p></div><div class="status-counts"><span class="pill healthy" id="healthyCount">3 Healthy</span><span class="pill warning" id="warningCount">1 Warning</span><span class="pill critical" id="criticalCount">0 Critical</span></div></div>
+  <div id="fleetGrid" class="fleet-grid"></div>
+  <p class="fineprint">Demo seed records use illustrative telemetry and do not represent verified live connections. Register real endpoints and configure engine-specific connection checks before treating results as live monitoring.</p>
+</section>
+<section class="kpi-grid">
+  <article class="kpi panel"><div>Query Execution Latency</div><strong id="kpiLatency">704 <small>ms</small></strong><span class="trend warn">↑ 9.2% vs baseline</span></article>
+  <article class="kpi panel"><div>CPU Utilization</div><strong id="kpiCpu">78.1<small>%</small></strong><span class="trend warn">↑ utilization rising</span></article>
+  <article class="kpi panel"><div>Active Connections</div><strong id="kpiConnections">72</strong><span class="trend neutral">Within demo pool</span></article>
+  <article class="kpi panel"><div>Open ML Anomalies</div><strong id="kpiAnomalies">2</strong><span class="trend warn">Needs review</span></article>
+  <article class="kpi panel"><div>Optimization Recommendations</div><strong id="kpiRecommendations">3</strong><span class="trend neutral">Human approval required</span></article>
+</section>
+<section class="panel charts-panel">
+  <div class="section-head"><div><h2>⚡ Real-Time DBMS Telemetry Charts</h2><p>Auto-refreshing dashboard view · illustrative demo metrics</p></div><span class="live-label"><i></i> REFRESHING</span></div>
+  <div class="chart-grid"><div class="chart-box"><h3>Query Latency (ms)</h3><canvas id="latencyChart"></canvas></div><div class="chart-box"><h3>CPU Usage (%) &amp; Connections</h3><canvas id="cpuChart"></canvas></div></div>
+</section>
+<section class="panel simulator">
+  <div class="section-head"><div><h2>🧪 Live Workload Benchmark Simulator</h2><p>Trigger demo scenarios to demonstrate anomaly detection and recommendation generation.</p></div><span class="pill info">SIMULATION</span></div>
+  <div class="scenario-list">
+    <button class="scenario" data-scenario="baseline"><span>●</span> Baseline Normal Load</button>
+    <button class="scenario" data-scenario="slow_query"><span>ϟ</span> Simulate Slow Unindexed Query (1250ms)</button>
+    <button class="scenario" data-scenario="cpu_spike"><span>🔥</span> Simulate CPU Spike (92%)</button>
+    <button class="scenario" data-scenario="connection_flood"><span>▣</span> Connection Flood (95 Conn)</button>
+    <button class="scenario" data-scenario="lock_contention"><span>🔒</span> Transaction Lock Contention</button>
+  </div><div id="simMessage" class="sim-message" hidden></div>
+</section>
+<section class="lower-grid">
+  <div class="panel anomaly-panel"><div class="section-head"><h2>⚠️ ML Detected Anomalies</h2><span id="anomalyBadge" class="pill warning">2 Open</span></div><div id="anomalyList" class="stack-list"></div></div>
+  <div class="panel recommendations-panel"><div class="section-head"><h2>🛠 Self-Healing &amp; Index Advisory</h2><span class="pill info">REVIEW REQUIRED</span></div><div id="recommendationList" class="stack-list"></div></div>
+</section>
+<section class="panel audit-panel"><div class="section-head"><div><h2>📜 Autonomous System Audit Trail</h2><p>Every simulated action and operator decision is recorded.</p></div><button id="refreshAudit" class="button outline">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Timestamp</th><th>Action</th><th>Executed By</th><th>Details</th><th>Status</th></tr></thead><tbody id="auditRows"><tr><td colspan="5" class="empty">No audit logs yet.</td></tr></tbody></table></div></section>
+<footer>Autonomous DB Monitoring Platform <span>·</span> Demo mode <span>·</span> SQL execution disabled by design</footer>
+</main>
+</div>
+<div id="connectModal" class="modal" aria-hidden="true"><div class="modal-backdrop" data-close></div><div class="modal-card"><button class="modal-close" data-close aria-label="Close">×</button><h2>Connect Target Database</h2><p class="muted">Register a target for the demo fleet. Credentials are not saved or tested.</p>
+<form id="connectForm">
+<label>Database Label<input name="label" value="Production Customer DBMS" required minlength="2"></label>
+<label>Database Engine<select name="engine"><option>PostgreSQL 16</option><option>MySQL 8</option><option>SQLite</option></select></label>
+<div class="form-row"><label>Host IP / Address<input name="host" value="127.0.0.1" required></label><label>Port<input name="port" type="number" value="5432" min="0" max="65535" required></label></div>
+<label>Database Name<input name="database" value="production_db" required></label>
+<div class="form-row"><label>Username (optional)<input name="username" autocomplete="off"></label><label>Password (not stored)<input name="password" type="password" autocomplete="new-password"></label></div>
+<div class="security-note">🔐 Demo mode: the credentials are not persisted and no remote login is attempted.</div><div class="modal-actions"><button type="button" class="button outline" data-close>Cancel</button><button type="submit" class="button primary">Connect &amp; Monitor</button></div>
+</form><div id="connectResult" class="sim-message" hidden></div></div></div>
+<div id="toast" class="toast" role="status"></div>
+<script src="/static/app.js"></script>
+</body></html>
